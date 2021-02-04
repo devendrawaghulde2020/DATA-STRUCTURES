@@ -1,72 +1,96 @@
 #include<iostream>
 using namespace std;
-char stack[7];             //creating stack
-int toss=-1;               //toss initialization
-void push(char a)
+
+char stack[100],tos=-1;
+
+//Push  the elements
+
+void push(char e)
 {
-	toss++;
-	stack[toss]=a;
+	tos++;
+	stack[tos]=e;
 }
+
+//Decrement top of stack
 
 void pop()
 {
-	toss--;
+	tos--;
 }
+
 int main()
 {
-	char exp[]="{()}[]";                         //Expression to be checked
-	for(int i=0;i<strlen(exp);i++)
+	string expr="{)()}[]";
+
+	for(int i=0;i<expr.length();i++)
 	{
-		if(exp[i]=='('||exp[i]=='{'||exp[i]=='[')   //checking all opening brackets 
+		
+		if(expr[i]=='(' || expr[i]=='[' || expr[i]=='{')
 		{
-			push(exp[i]);                           //if condition satisfies then push
-		continue;                                   //CONTINUED if condition doesn't match with open brackets
+			//push the open brackets untill closing bracket comes
+
+			push(expr[i]);
+			continue;
 		}
-		else if(exp[i]==')'||exp[i]=='}'||exp[i]==']') //Checking closing brackets
+
+		
+		else if(expr[i]==')' || expr[i]==']' || expr[i]=='}')
 		{
-			if(exp[i]==')')                            //checking particular bracket
+			//check for "(" closing bracket
+
+			if(expr[i]==')')
 			{
-				if(stack[toss]=='(')  //checking if opening bracket exist for current closing bracket
+				if(stack[tos]=='(')
 				{
-					pop();            //pop out if pairs of opening and closing bracket exists!
+					pop();
 				}
 				else
 				{
-					cout<<"UNBALANCED EXP";
-				break;
+					cout<<"UNBALANCED EXPRESSION";
+					break;
 				}
 			}
 
-			if(exp[i]=='}')
+
+			//check for "{" closing bracket
+
+			if(expr[i]=='}')
 			{
-				if(stack[toss]=='{')
+				if(stack[tos]=='{')
 				{
 					pop();
 				}
 				else
 				{
-					cout<<"UNBALANCED EXP";
-				break;
+					cout<<"UNBALANCED EXPRESSION";
+					break;
 				}
 			}
-			if(exp[i]==']')
+			
+			//check for "[" closing bracket
+
+			if(expr[i]==']')
 			{
-				if(stack[toss]=='[')
+				if(stack[tos]=='[')
 				{
 					pop();
 				}
 				else
 				{
-					cout<<"UNBALANCED EXP";
-				break;
+					cout<<"UNBALANCED EXPRESSION";
+					break;
 				}
 			}
 		}
-		if(toss==-1)                    //if stack is empty at the end then condition is Balanced
-		{
-			cout<<"BALANCED!!!!!";
-		}
+
 	}
+
+//If stack  is empty Then Balanced expression
+
+	if(tos==-1)
+	{
+	cout<<"BALANCED EXPRESSION";
+	}
+
 	getchar();
-	return 0;
 }
